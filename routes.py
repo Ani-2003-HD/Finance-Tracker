@@ -121,7 +121,7 @@ def expenses_page():
         filter_query['date'] = date
 
     expenses = list(expenses_collection.find(filter_query))
-    print(expenses[0])
+    
     return render_template('expenses.html', expenses=expenses)
 
 @app.route('/edit_expense/<expense_id>', methods=['GET', 'POST'])
