@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    
+<head>
+    <title>Edit Expense</title>
+</head>
+<body>
+    <h1>Edit Expense</h1>
+    
+    <form method="POST">
+        <input type="number" name="amount" value="{{ expense.amount }}" required><br>
+        <input type="date" name="date" value="{{ expense.date }}" required><br>
+        <select name="category">
+            <option value="Food" {% if expense.category == 'Food' %}selected{% endif %}>Food</option>
+            <option value="Rent" {% if expense.category == 'Rent' %}selected{% endif %}>Rent</option>
+            <option value="Utilities" {% if expense.category == 'Utilities' %}selected{% endif %}>Utilities</option>
+            <option value="Other" {% if expense.category == 'Other' %}selected{% endif %}>Other</option>
+        </select><br>
+        <input type="text" name="description" value="{{ expense.description }}" required><br>
+        <button type="submit">Update Expense</button>
+    </form>
+</body>
+</html>

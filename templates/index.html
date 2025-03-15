@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center">
+    
+    <!-- Welcome Heading -->
+    <div class="py-5">
+        <h1 class="display-4 fw-bold text-primary">Welcome to Your Finance Tracker</h1>
+        <p class="lead text-muted">Track your expenses easily and efficiently.</p>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body">
+                    <h3 class="card-title mb-3">Get Started</h3>
+                    <p class="card-text text-muted">
+                        {% if 'user' in session %}
+                            Welcome back, <strong>{{ session['user'] }}</strong>! Manage your expenses efficiently.
+                        {% else %}
+                            Log in to manage your expenses or create a new account to start tracking your finances today.
+                        {% endif %}
+                    </p>
+
+                    <div class="d-flex justify-content-center">
+                        {% if 'user' in session %}
+                            <a href="{{ url_for('app.expenses_page') }}" class="btn btn-primary me-2 w-50">Dashboard</a>
+                            <a href="{{ url_for('app.logout') }}" class="btn btn-danger w-50">Logout</a>
+                        {% else %}
+                            <a href="{{ url_for('app.login') }}" class="btn btn-primary me-2 w-50">Login</a>
+                            <a href="{{ url_for('app.signup') }}" class="btn btn-outline-primary w-50">Sign Up</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Highlights Section -->
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card border-primary shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">📊 Track Expenses</h5>
+                    <p class="card-text text-muted">Monitor your expenses with powerful filters and detailed breakdowns.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-success shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-success">🔎 Smart Filters</h5>
+                    <p class="card-text text-muted">Filter your spending by category, date, and more with ease.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-warning shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-warning">📅 Stay Organized</h5>
+                    <p class="card-text text-muted">Visualize your spending patterns and manage your finances like a pro.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="text-muted text-center py-4">
+        &copy; {{ year }} Finance Tracker | Designed for better financial management
+    </div>
+
+</div>
+{% endblock %}
