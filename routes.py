@@ -6,7 +6,6 @@ from bson import ObjectId
 
 app = Blueprint('app', __name__)
 
-# Homepage
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -17,27 +16,25 @@ def profile():
         return redirect(url_for('app.login'))
 
     user = users_collection.find_one({"email": session['user']})
-    print("User Found:", user)  # 🔍 Check if user data is fetched correctly
+    print("User Found:", user) 
 
     if request.method == 'POST':
         updated_data = {
             "name": request.form['name'],
             "phone": request.form['phone']
         }
-        print("Updated Data:", updated_data)  # 🔍 Check if form data is captured correctly
+        print("Updated Data:", updated_data) 
 
         result = users_collection.update_one(
             {"email": session['user']}, 
             {"$set": updated_data}
         )
-        print("Update Result:", result.modified_count)  # 🔍 Confirm update success
+        print("Update Result:", result.modified_count) 
 
         return redirect(url_for('app.profile'))
 
     return render_template('profile.html', user=user)
 
-
-# Signup Route
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -67,7 +64,6 @@ def login():
         if not user or not check_password_hash(user['password'], data['password']):
             return render_template('login.html', error="Invalid email or password")
 
-        # Store the logged-in user's email in the session
         session['user'] = user['email']
         return redirect(url_for('app.expenses_page'))
 
@@ -94,7 +90,7 @@ def add_expense():
             "date": date,
             "category": category,
             "description": description,
-            "user_email": session['user']  # Ensuring expenses are linked to logged-in user
+            "user_email": session['user'] 
         }
 
         expenses_collection.insert_one(new_expense)
@@ -112,7 +108,6 @@ def expenses_page():
     category = request.args.get('category')
     date = request.args.get('date')
 
-    # Filter expenses by user
     filter_query = {'user_email': session['user']}
     
     if category:
@@ -129,7 +124,6 @@ def edit_expense(expense_id):
     if 'user' not in session:
         return redirect(url_for('app.login'))
 
-    # Find the expense by its ID and the logged-in user
     expense = expenses_collection.find_one({"_id": ObjectId(expense_id), "user_email": session['user']})
 
     if not expense:
@@ -165,7 +159,7 @@ def delete_expense(expense_id):
 
 @app.route('/logout')
 def logout():
-    session.clear()  # Clears all session data
+    session.clear() 
     return redirect(url_for('app.home'))
 
 @app.before_request
